@@ -86,6 +86,7 @@ export default function UserForm() {
   const handleFormClear = () => {
     setForm(INITIAL_DATA);
     setAddress(INITIAL_ADDRESS);
+    setErrors(INITIAL_ERRORS);
   };
 
   const onSubmit = (e: any) => {
@@ -133,10 +134,10 @@ export default function UserForm() {
   return (
     <section className="min-h-[100vh] w-full flex flex-col items-center justify-center py-4">
       <div className="row justify-center">
-        <div className="w-[400px] !max-w-[80vw] flex flex-col items-center justify-center border border-gray-300 rounded-lg px-6 py-6 shadow-xl">
+        <div className=" !max-w-[80vw] flex flex-col items-center justify-center border border-gray-300 rounded-lg px-6 py-6 shadow-xl">
           <div className="pt-4 pb-2 w-full">
-            <h5 className="text-center pb-0 text-xl font-semibold mb-1 tracking-wider">
-              Signup
+            <h5 className="text-center pb-0 text-3xl font-semibold mb-1 tracking-wider">
+              Sign Up
             </h5>
             {/* {apiError && (
               <p className="text-center text-red-700 font-bold text-xs bg-red-200 py-3 mt-2">
@@ -146,100 +147,120 @@ export default function UserForm() {
           </div>
 
           <form onSubmit={onSubmit} className="flex flex-col gap-4 mt-3 w-full">
-            <div className="flex gap-3 md:flex-row flex-col">
-              <FormInput
-                label="First Name"
-                value={form.firstName}
-                error={errors.firstName}
-                onChange={(e) => handleFormChange("firstName", e.target.value)}
-              />
+            <div className="flex gap-10 flex-col md:flex-row">
+              <div className="flex flex-col gap-4 flex-1">
+                <div className="flex gap-3 flex-col sm:flex-row md:flex-col">
+                  <FormInput
+                    label="First Name"
+                    value={form.firstName}
+                    error={errors.firstName}
+                    onChange={(e) =>
+                      handleFormChange("firstName", e.target.value)
+                    }
+                  />
 
-              <FormInput
-                label="Last Name"
-                value={form.lastName}
-                error={errors.lastName}
-                onChange={(e) => handleFormChange("lastName", e.target.value)}
-              />
-            </div>
-
-            <FormInput
-              label="Username"
-              value={form.userName}
-              error={errors.userName}
-              onChange={(e) => handleFormChange("userName", e.target.value)}
-            />
-
-            <FormInput
-              label="Email"
-              value={form.email}
-              error={errors.email}
-              onChange={(e) => handleFormChange("email", e.target.value)}
-            />
-
-            <div className="flex gap-3 md:flex-row flex-col">
-              <FormInput
-                label="City"
-                value={address.city}
-                error={errors.city}
-                onChange={(e) => handleAddressChange("city", e.target.value)}
-              />
-
-              <FormInput
-                label="Country"
-                value={address.country}
-                error={errors.country}
-                onChange={(e) => handleAddressChange("country", e.target.value)}
-              />
-            </div>
-
-            <div className="flex gap-3 items-center">
-              <input
-                type="checkbox"
-                name="isBuyer"
-                id="isBuyer"
-                checked={form.isBuyer}
-                onChange={(e) => handleFormChange("isBuyer", e.target.checked)}
-              />
-              <label htmlFor="isBuyer" className="">
-                Is Buyer
-              </label>
-            </div>
-
-            <hr className="border-gray-400" />
-
-            <FormInput
-              label="Password"
-              value={form.password}
-              error={errors.password}
-              onChange={(e) => handleFormChange("password", e.target.value)}
-              isPassword={true}
-            />
-
-            <FormInput
-              label="Confirm Password"
-              value={form.confirmPassword}
-              error={errors.confirmPassword}
-              onChange={(e) =>
-                handleFormChange("confirmPassword", e.target.value)
-              }
-              isPassword={true}
-            />
-
-            <hr className="border-gray-400 mt-2" />
-
-            <div>
-              <FormInput
-                label="Profile Picture (optional)"
-                value={form.profilePicture ?? ""}
-                onChange={(e) =>
-                  handleFormChange("profilePicture", e.target.value)
-                }
-              />
-              {form.profilePicture && (
-                <div className="flex justify-center items-center py-3 max-h-[300px]">
-                  <img src={form.profilePicture} alt="Picture Not Found" />
+                  <FormInput
+                    label="Last Name"
+                    value={form.lastName}
+                    error={errors.lastName}
+                    onChange={(e) =>
+                      handleFormChange("lastName", e.target.value)
+                    }
+                  />
                 </div>
-              )}
+
+                <FormInput
+                  label="Username"
+                  value={form.userName}
+                  error={errors.userName}
+                  onChange={(e) => handleFormChange("userName", e.target.value)}
+                />
+
+                <FormInput
+                  label="Email"
+                  value={form.email}
+                  error={errors.email}
+                  onChange={(e) => handleFormChange("email", e.target.value)}
+                />
+
+                <div className="flex gap-3 sm:flex-row flex-col">
+                  <FormInput
+                    label="City"
+                    value={address.city}
+                    error={errors.city}
+                    onChange={(e) =>
+                      handleAddressChange("city", e.target.value)
+                    }
+                  />
+
+                  <FormInput
+                    label="Country"
+                    value={address.country}
+                    error={errors.country}
+                    onChange={(e) =>
+                      handleAddressChange("country", e.target.value)
+                    }
+                  />
+                </div>
+
+                <div className="flex gap-3 items-center">
+                  <input
+                    type="checkbox"
+                    name="isBuyer"
+                    id="isBuyer"
+                    checked={form.isBuyer}
+                    onChange={(e) =>
+                      handleFormChange("isBuyer", e.target.checked)
+                    }
+                  />
+                  <label htmlFor="isBuyer" className="">
+                    Is Buyer
+                  </label>
+                </div>
+              </div>
+
+              <hr className="border-gray-400 block md:hidden" />
+
+              <div className="flex flex-col gap-4 flex-1">
+                <FormInput
+                  label="Password"
+                  value={form.password}
+                  error={errors.password}
+                  onChange={(e) => handleFormChange("password", e.target.value)}
+                  isPassword={true}
+                />
+
+                <FormInput
+                  label="Confirm Password"
+                  value={form.confirmPassword}
+                  error={errors.confirmPassword}
+                  onChange={(e) =>
+                    handleFormChange("confirmPassword", e.target.value)
+                  }
+                  isPassword={true}
+                />
+
+                <hr className="border-gray-400 block md:hidden mt-3" />
+
+                <div>
+                  <FormInput
+                    label="Profile Picture (optional)"
+                    value={form.profilePicture ?? ""}
+                    onChange={(e) =>
+                      handleFormChange("profilePicture", e.target.value)
+                    }
+                  />
+                  {form.profilePicture && (
+                    <div className="flex justify-center items-center py-3 border-2 mt-2 border-dashed border-gray-500">
+                      <img
+                        src={form.profilePicture}
+                        alt="Picture Not Found"
+                        className="max-h-[160px]"
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
 
             <div className="mt-2">
@@ -256,7 +277,7 @@ export default function UserForm() {
               </button>
               <button
                 className="bg-gray-600 text-white text-sm py-3 rounded w-full disabled:bg-gray-400 flex justify-center items-center mt-2"
-                type="submit"
+                type="button"
                 onClick={handleFormClear}
               >
                 Clear
