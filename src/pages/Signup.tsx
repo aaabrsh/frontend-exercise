@@ -1,3 +1,11 @@
+import UserForm from "../components/UserForm";
+
 export default function Signup() {
-  return <div>Signup</div>;
+  return (
+    <>
+      <div>
+        <UserForm />
+      </div>
+    </>
+  );
 }

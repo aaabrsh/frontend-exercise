@@ -4,8 +4,8 @@ import "../styles/form.css";
 interface FormInputPropTypes {
   label: string;
   value: string;
-  error: string;
-  touched: boolean;
+  error?: string;
+  touched?: boolean;
   isPassword?: boolean;
   onChange: (e: any) => void;
 }
@@ -13,8 +13,8 @@ interface FormInputPropTypes {
 export default function FormInput({
   label,
   value,
-  error,
-  touched,
+  error = "",
+  touched = true,
   isPassword = false,
   onChange,
 }: FormInputPropTypes) {

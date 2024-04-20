@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import FormInput from "../components/FormInput";
 import Loader from "../components/Loader";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -84,10 +85,10 @@ export default function Login() {
 
   return (
     <>
-      <section className="h-[100vh] w-full flex flex-col items-center justify-center py-4">
+      <section className="min-h-[100vh] w-full flex flex-col items-center justify-center py-4">
         <div className="row justify-center">
           <div className="w-[350px] !max-w-[80vw] flex flex-col items-center justify-center border border-gray-300 rounded-lg px-4 py-6 shadow-xl">
-            <div className="pt-4 pb-2">
+            <div className="pt-4 pb-2 w-full">
               <h5 className="text-center pb-0 text-xl font-semibold mb-1 tracking-wider">
                 Login to Your Account
               </h5>
@@ -97,7 +98,7 @@ export default function Login() {
                 </p>
               )}
               {apiError && (
-                <p className="text-center text-red-600 font-bold text-xs">
+                <p className="text-center text-red-700 font-bold text-xs bg-red-200 py-3 mt-2">
                   {apiError}
                 </p>
               )}
@@ -136,6 +137,13 @@ export default function Login() {
                     "Login"
                   )}
                 </button>
+                <div className="mt-2 text-sm">
+                  <span>Don't have an account?</span>
+                  &nbsp;
+                  <Link to={"/signup"} className="text-blue-600 underline">
+                    Sign Up
+                  </Link>
+                </div>
               </div>
             </form>
           </div>
