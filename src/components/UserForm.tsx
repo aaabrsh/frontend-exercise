@@ -10,11 +10,26 @@ import {
   INITIAL_ERRORS,
 } from "../constants/user-form";
 
-export default function UserForm() {
+export default function UserForm({
+  initial_data,
+  onSubmit,
+}: {
+  initial_data?: UserFormData;
+  onSubmit: (data: UserFormData) => void;
+}) {
+  const [originalFormData, setOriginalFormData] = useState<UserFormData>();
   const [form, setForm] = useState<UserFormData>(INITIAL_DATA);
   const [address, setAddress] = useState<AddressForm>(INITIAL_ADDRESS);
   const [errors, setErrors] = useState<UserFormErrors>(INITIAL_ERRORS);
   const [sendingData, setSendingData] = useState(false);
+
+  useEffect(() => {
+    if (initial_data) {
+      setOriginalFormData(initial_data);
+    } else {
+      setOriginalFormData(INITIAL_DATA);
+    }
+  }, [initial_data]);
 
   useEffect(() => {
     if (address.city || address.country) {
@@ -39,46 +54,72 @@ export default function UserForm() {
     setErrors(INITIAL_ERRORS);
   };
 
-  const onSubmit = (e: any) => {
+  const handleFormSubmit = (e: any) => {
     e.preventDefault();
-    validatePassword();
+    if (validatePassword()) onSubmit(form);
   };
 
-  const validatePassword = () => {
+  const validatePassword = (): boolean => {
     const errors_copy: UserFormErrors = { ...INITIAL_ERRORS };
+    let valid = true;
 
     // first name validation
-    if (!form.firstName) errors_copy.firstName = "first name is required";
+    if (!form.firstName) {
+      errors_copy.firstName = "first name is required";
+      valid = false;
+    }
 
     // last name validation
-    if (!form.lastName) errors_copy.lastName = "last name is required";
+    if (!form.lastName) {
+      errors_copy.lastName = "last name is required";
+      valid = false;
+    }
 
     // email validation
     let emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
-    if (!form.email) errors_copy.email = "email is required";
-    else if (!emailRegex.test(form.email)) {
+    if (!form.email) {
+      errors_copy.email = "email is required";
+      valid = false;
+    } else if (!emailRegex.test(form.email)) {
       errors_copy.email = "invalid email pattern";
+      valid = false;
     }
 
     // username validation
-    if (!form.userName) errors_copy.userName = "username is required";
+    if (!form.userName) {
+      errors_copy.userName = "username is required";
+      valid = false;
+    }
 
     // password validation
-    if (!form.password) errors_copy.password = "password is required";
+    if (!form.password) {
+      errors_copy.password = "password is required";
+      valid = false;
+    }
     // else if (form.password.length < 8)
     //   errors_copy.password = "password length must be atleast 8";
 
     // confirm password validation
-    if (!form.confirmPassword)
+    if (!form.confirmPassword) {
       errors_copy.confirmPassword = "password is required";
-    else if (form.confirmPassword !== form.password)
+      valid = false;
+    } else if (form.confirmPassword !== form.password) {
       errors_copy.confirmPassword = "passwords don't match";
+      valid = false;
+    }
 
     // address validation
-    if (!address.city) errors_copy.city = "city is required";
-    if (!address.country) errors_copy.country = "country is required";
+    if (!address.city) {
+      errors_copy.city = "city is required";
+      valid = false;
+    }
+    if (!address.country) {
+      errors_copy.country = "country is required";
+      valid = false;
+    }
 
     setErrors(errors_copy);
+    return valid;
   };
 
   return (
@@ -96,7 +137,10 @@ export default function UserForm() {
             )} */}
           </div>
 
-          <form onSubmit={onSubmit} className="flex flex-col gap-4 mt-3 w-full">
+          <form
+            onSubmit={handleFormSubmit}
+            className="flex flex-col gap-4 mt-3 w-full"
+          >
             <div className="flex gap-10 flex-col md:flex-row">
               <div className="flex flex-col gap-4 flex-1">
                 <div className="flex gap-3 flex-col sm:flex-row md:flex-col">
