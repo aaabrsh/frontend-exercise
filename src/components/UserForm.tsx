@@ -3,65 +3,15 @@ import Loader from "./Loader";
 import { Link } from "react-router-dom";
 import FormInput from "./FormInput";
 import "../styles/form.css";
-
-interface UserForm {
-  _id?: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  userName: string;
-  password: string;
-  confirmPassword: string;
-  address: string;
-  isBuyer: boolean;
-  profilePicture?: string;
-}
-
-interface UserFormErrors {
-  firstName: string;
-  lastName: string;
-  email: string;
-  userName: string;
-  password: string;
-  confirmPassword: string;
-  city: string;
-  country: string;
-}
-
-interface AddressForm {
-  city: string;
-  country: string;
-}
-
-const INITIAL_DATA: UserForm = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  userName: "",
-  address: "",
-  isBuyer: false,
-  password: "",
-  confirmPassword: "",
-};
-
-const INITIAL_ERRORS: UserFormErrors = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  userName: "",
-  password: "",
-  confirmPassword: "",
-  city: "",
-  country: "",
-};
-
-const INITIAL_ADDRESS: AddressForm = {
-  city: "",
-  country: "",
-};
+import { AddressForm, UserFormData, UserFormErrors } from "../type/interfaces";
+import {
+  INITIAL_ADDRESS,
+  INITIAL_DATA,
+  INITIAL_ERRORS,
+} from "../constants/user-form";
 
 export default function UserForm() {
-  const [form, setForm] = useState<UserForm>(INITIAL_DATA);
+  const [form, setForm] = useState<UserFormData>(INITIAL_DATA);
   const [address, setAddress] = useState<AddressForm>(INITIAL_ADDRESS);
   const [errors, setErrors] = useState<UserFormErrors>(INITIAL_ERRORS);
   const [sendingData, setSendingData] = useState(false);
