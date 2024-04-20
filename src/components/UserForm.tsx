@@ -10,18 +10,25 @@ import {
   INITIAL_ERRORS,
 } from "../constants/user-form";
 
-export default function UserForm({
-  initial_data,
-  onSubmit,
-}: {
+interface UserFormProps {
+  title: string;
   initial_data?: UserFormData;
+  isEdit?: boolean;
+  isLoading: boolean;
   onSubmit: (data: UserFormData) => void;
-}) {
+}
+
+export default function UserForm({
+  title,
+  isEdit = false,
+  initial_data,
+  isLoading,
+  onSubmit,
+}: UserFormProps) {
   const [originalFormData, setOriginalFormData] = useState<UserFormData>();
   const [form, setForm] = useState<UserFormData>(INITIAL_DATA);
   const [address, setAddress] = useState<AddressForm>(INITIAL_ADDRESS);
   const [errors, setErrors] = useState<UserFormErrors>(INITIAL_ERRORS);
-  const [sendingData, setSendingData] = useState(false);
 
   useEffect(() => {
     if (initial_data) {
@@ -49,7 +56,7 @@ export default function UserForm({
   };
 
   const handleFormClear = () => {
-    setForm(INITIAL_DATA);
+    setForm(originalFormData || INITIAL_DATA);
     setAddress(INITIAL_ADDRESS);
     setErrors(INITIAL_ERRORS);
   };
@@ -128,7 +135,7 @@ export default function UserForm({
         <div className=" !max-w-[80vw] flex flex-col items-center justify-center border border-gray-300 rounded-lg px-6 py-6 shadow-xl">
           <div className="pt-4 pb-2 w-full">
             <h5 className="text-center pb-0 text-3xl font-semibold mb-1 tracking-wider">
-              Sign Up
+              {title}
             </h5>
             {/* {apiError && (
               <p className="text-center text-red-700 font-bold text-xs bg-red-200 py-3 mt-2">
@@ -261,9 +268,9 @@ export default function UserForm({
               <button
                 className="bg-blue-600 text-white text-sm py-3 rounded w-full disabled:bg-blue-400 flex justify-center items-center"
                 type="submit"
-                disabled={sendingData}
+                disabled={isLoading}
               >
-                {sendingData ? (
+                {isLoading ? (
                   <Loader className="!border-t-transparent" />
                 ) : (
                   "Submit"
@@ -276,13 +283,15 @@ export default function UserForm({
               >
                 Clear
               </button>
-              <div className="mt-2 text-sm">
-                <span>Have an account?</span>
-                &nbsp;
-                <Link to={"/login"} className="text-blue-600 underline">
-                  Log In
-                </Link>
-              </div>
+              {!isEdit && (
+                <div className="mt-2 text-sm">
+                  <span>Have an account?</span>
+                  &nbsp;
+                  <Link to={"/login"} className="text-blue-600 underline">
+                    Log In
+                  </Link>
+                </div>
+              )}
             </div>
           </form>
         </div>
