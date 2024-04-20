@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import FormInput from "../components/FormInput";
+import Loader from "../components/Loader";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -125,11 +126,15 @@ export default function Login() {
 
               <div className="mt-2">
                 <button
-                  className="bg-blue-600 text-white text-sm py-3 rounded w-full disabled:bg-blue-400"
+                  className="bg-blue-600 text-white text-sm py-3 rounded w-full disabled:bg-blue-400 flex justify-center items-center"
                   type="submit"
                   disabled={sendingData}
                 >
-                  Login
+                  {sendingData ? (
+                    <Loader className="!border-t-transparent" />
+                  ) : (
+                    "Login"
+                  )}
                 </button>
               </div>
             </form>
