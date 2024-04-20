@@ -1,7 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IUserState, UserState } from "./user.types";
 
-const initialState: IUserState = { data: [], isLoading: false, error: null };
+const initialState: IUserState = {
+  data: [],
+  total: 0,
+  isLoading: false,
+  error: null,
+};
 
 const userSlice = createSlice({
   name: "users",
@@ -11,18 +16,22 @@ const userSlice = createSlice({
     usersFetchStart: (state) => {
       state.error = null;
       state.data = [];
+      state.total = 0;
       state.isLoading = true;
     },
 
-    usersFetchSuccess: (state, action: PayloadAction<UserState[]>) => {
+    usersFetchSuccess: (
+      state,
+      action: PayloadAction<{ data: UserState[]; total: number }>
+    ) => {
       state.error = null;
       state.isLoading = false;
-      userSlice.caseReducers.addUsers(state, action);
+      state.total = action.payload.total;
+      state.data = action.payload.data;
     },
 
     usersFetchError: (state, action: PayloadAction<any>) => {
       state.error = action.payload;
-      state.data = [];
       state.isLoading = false;
     },
 
@@ -32,6 +41,7 @@ const userSlice = createSlice({
 
     removeUsers: (state) => {
       state.data = [];
+      state.total = 0;
       state.error = null;
       state.isLoading = false;
     },

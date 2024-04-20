@@ -9,7 +9,7 @@ import { get } from "../../api/crud";
 function* workUsersFetch(): any {
   try {
     const response = yield call(() => get("/fetch/dummy/user-v2"));
-    yield put({ type: FETCH_USERS_SUCCESS, payload: response.data });
+    yield put({ type: FETCH_USERS_SUCCESS, payload: response });
   } catch (e) {
     yield put({ type: FETCH_USERS_ERROR, payload: { error: e } });
   }
