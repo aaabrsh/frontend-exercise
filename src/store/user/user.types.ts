@@ -16,7 +16,7 @@ export type IUserState = {
 };
 
 // action types
-const user = "user";
-export const FETCH_USERS_START = `${user}/userFetchStart`;
-export const FETCH_USERS_SUCCESS = `${user}/userFetchSuccess`;
-export const FETCH_USERS_ERROR = `${user}/userFetchError`;
+const user = "users";
+export const FETCH_USERS_START = `${user}/usersFetchStart`;
+export const FETCH_USERS_SUCCESS = `${user}/usersFetchSuccess`;
+export const FETCH_USERS_ERROR = `${user}/usersFetchError`;
