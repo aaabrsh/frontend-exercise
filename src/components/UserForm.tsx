@@ -16,6 +16,7 @@ interface UserFormProps {
   initial_data?: UserFormData;
   isEdit?: boolean;
   isLoading: boolean;
+  apiError?: string;
   onSubmit: (data: UserFormData) => void;
 }
 
@@ -24,6 +25,7 @@ export default function UserForm({
   isEdit = false,
   initial_data,
   isLoading,
+  apiError,
   onSubmit,
 }: UserFormProps) {
   const [originalFormData, setOriginalFormData] = useState<UserFormData>();
@@ -139,11 +141,11 @@ export default function UserForm({
             <h5 className="text-center pb-0 text-3xl font-semibold mb-1 tracking-wider">
               {title}
             </h5>
-            {/* {apiError && (
+            {apiError && (
               <p className="text-center text-red-700 font-bold text-xs bg-red-200 py-3 mt-2">
                 {apiError}
               </p>
-            )} */}
+            )}
           </div>
 
           <form
