@@ -14,6 +14,7 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState("");
   const [emailTouched, setEmailTouched] = useState(false);
   const [passwordTouched, setPasswordTouched] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const { isLoading, error, isLoggedIn } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ export default function Login() {
   }, [password]);
 
   useEffect(() => {
-    if (isLoggedIn) navigate("/home");
+    if (isLoggedIn && formSubmitted) navigate("/home");
   }, [isLoggedIn]);
 
   const onSubmit = (e: any) => {
@@ -86,6 +87,7 @@ export default function Login() {
 
   const sendAuthRequest = (email: string, password: string) => {
     dispatch(loginStart({ email, password }));
+    setFormSubmitted(true);
   };
 
   return (
