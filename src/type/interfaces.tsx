@@ -26,3 +26,8 @@ export interface AddressForm {
   city: string;
   country: string;
 }
+
+export interface LoginData {
+  email: string;
+  password: string;
+}

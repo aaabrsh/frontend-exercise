@@ -3,6 +3,9 @@ import { useDispatch } from "react-redux";
 import FormInput from "../components/FormInput";
 import Loader from "../components/Loader";
 import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import { loginStart } from "../store/auth/auth.slice";
+import { PASSWORD_LENGTH } from "../constants/user-form";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -11,8 +14,7 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState("");
   const [emailTouched, setEmailTouched] = useState(false);
   const [passwordTouched, setPasswordTouched] = useState(false);
-  const [apiError, setApiError] = useState();
-  const [sendingData, setSendingData] = useState(false);
+  const { isLoading, error } = useAuth();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,7 +34,6 @@ export default function Login() {
     const isPasswordValid = validatePassword();
 
     if (isEmailValid && isPasswordValid) {
-      setApiError(undefined);
       sendAuthRequest(email, password);
     }
   };
@@ -59,7 +60,7 @@ export default function Login() {
       return false;
     }
 
-    if (password.length < 8) {
+    if (password.length < PASSWORD_LENGTH) {
       setPasswordError("password length is too short");
       return false;
     }
@@ -79,8 +80,7 @@ export default function Login() {
   };
 
   const sendAuthRequest = (email: string, password: string) => {
-    setSendingData(true);
-    // TODO: dispatch here, set sendingData to false based on isLoading property of auth store
+    dispatch(loginStart({ email, password }));
   };
 
   return (
@@ -92,14 +92,14 @@ export default function Login() {
               <h5 className="text-center pb-0 text-xl font-semibold mb-1 tracking-wider">
                 Login to Your Account
               </h5>
-              {!apiError && (
+              {!error && (
                 <p className="text-center mb-0 text-xs">
                   Enter your email & password to login
                 </p>
               )}
-              {apiError && (
+              {error && (
                 <p className="text-center text-red-700 font-bold text-xs bg-red-200 py-3 mt-2">
-                  {apiError}
+                  {error}
                 </p>
               )}
             </div>
@@ -129,9 +129,9 @@ export default function Login() {
                 <button
                   className="bg-blue-600 text-white text-sm py-3 rounded w-full disabled:bg-blue-400 flex justify-center items-center"
                   type="submit"
-                  disabled={sendingData}
+                  disabled={isLoading}
                 >
-                  {sendingData ? (
+                  {isLoading ? (
                     <Loader className="!border-t-transparent" />
                   ) : (
                     "Login"

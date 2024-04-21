@@ -26,3 +26,5 @@ export const INITIAL_ADDRESS: AddressForm = {
   city: "",
   country: "",
 };
+
+export const PASSWORD_LENGTH = 4;

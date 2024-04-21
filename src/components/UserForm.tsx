@@ -8,6 +8,7 @@ import {
   INITIAL_ADDRESS,
   INITIAL_DATA,
   INITIAL_ERRORS,
+  PASSWORD_LENGTH,
 } from "../constants/user-form";
 
 interface UserFormProps {
@@ -102,9 +103,10 @@ export default function UserForm({
     if (!form.password) {
       errors_copy.password = "password is required";
       valid = false;
+    } else if (form.password.length < PASSWORD_LENGTH) {
+      errors_copy.password = `password length must be atleast ${PASSWORD_LENGTH}`;
+      valid = false;
     }
-    // else if (form.password.length < 8)
-    //   errors_copy.password = "password length must be atleast 8";
 
     // confirm password validation
     if (!form.confirmPassword) {
