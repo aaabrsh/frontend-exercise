@@ -20,7 +20,7 @@ export default function Card({ user }: { user: UserState }) {
 
   return (
     <>
-      <div className="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden my-4">
+      <div className="sm:max-w-sm bg-white shadow-lg rounded-lg overflow-hidden my-4">
         <img
           className="w-full h-56 object-cover object-center transform transition-transform duration-600 hover:scale-110"
           src={user.profilePic}

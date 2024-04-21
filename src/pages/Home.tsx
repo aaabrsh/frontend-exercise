@@ -29,7 +29,9 @@ export default function Home() {
   if (isLoading && users.length === 0) {
     return (
       <>
-        <div className="h-full gap-x-6 gap-y-5 grid grid-cols-4 py-20">
+        <Header />
+
+        <div className="h-full gap-x-6 gap-y-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-5 py-20">
           {new Array(4).fill(1).map((_, i) => (
             <div key={i}>
               <div className="animate-pulse h-56 rounded-t-xl w-full bg-slate-200"></div>
@@ -51,8 +53,8 @@ export default function Home() {
   return (
     <>
       <Header />
-      <div className="py-20">
-        <div className="gap-x-6 gap-y-5 grid grid-cols-4">
+      <div className="py-20 px-5">
+        <div className="gap-x-6 gap-y-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {users.map((user, index) => (
             <Card user={user} key={index} />
           ))}
