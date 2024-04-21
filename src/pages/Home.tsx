@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useUsers } from "../hooks/useUsers";
 import { removeUsers, usersFetchStart } from "../store/user/user.slice";
 import Card from "../components/Card";
+import Header from "../components/Header";
 
 export default function Home() {
   const { data: users, total, isLoading, error, page, limit } = useUsers();
@@ -48,12 +49,15 @@ export default function Home() {
   }
 
   return (
-    <div className="py-20">
-      <div className="gap-x-6 gap-y-5 grid grid-cols-4">
-        {users.map((user, index) => (
-          <Card user={user} key={index} />
-        ))}
+    <>
+      <Header />
+      <div className="py-20">
+        <div className="gap-x-6 gap-y-5 grid grid-cols-4">
+          {users.map((user, index) => (
+            <Card user={user} key={index} />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
