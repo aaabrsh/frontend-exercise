@@ -9,7 +9,7 @@ const initialState: IAuthState = {
   user: local_data ? JSON.parse(local_data) : null,
   isLoading: false,
   error: null,
-  isLoggedIn: local_data? true : false
+  isLoggedIn: local_data ? true : false,
 };
 
 const authSlice = createSlice({
@@ -43,11 +43,12 @@ const authSlice = createSlice({
       state.error = null;
       state.isLoading = false;
       state.isLoggedIn = false;
-      localStorage.removeItem("user");
+      localStorage.removeItem("auth");
     },
   },
 });
 
-export const { loginStart, loginSuccess, loginError } = authSlice.actions;
+export const { loginStart, loginSuccess, loginError, logout } =
+  authSlice.actions;
 
 export const authReducer = authSlice.reducer;
