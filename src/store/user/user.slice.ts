@@ -6,6 +6,8 @@ const initialState: IUserState = {
   total: 0,
   isLoading: false,
   error: null,
+  page: 0,
+  limit: 20,
 };
 
 const userSlice = createSlice({
@@ -13,10 +15,11 @@ const userSlice = createSlice({
   initialState,
 
   reducers: {
-    usersFetchStart: (state) => {
+    usersFetchStart: (
+      state,
+      _action: PayloadAction<{ page: number; limit: number }>
+    ) => {
       state.error = null;
-      state.data = [];
-      state.total = 0;
       state.isLoading = true;
     },
 
@@ -27,7 +30,8 @@ const userSlice = createSlice({
       state.error = null;
       state.isLoading = false;
       state.total = action.payload.total;
-      state.data = action.payload.data;
+      state.data.push(...action.payload.data);
+      state.page = state.page + 1;
     },
 
     usersFetchError: (state, action: PayloadAction<any>) => {
@@ -35,15 +39,8 @@ const userSlice = createSlice({
       state.isLoading = false;
     },
 
-    addUsers: (state, action: PayloadAction<UserState[]>) => {
-      state.data = action.payload;
-    },
-
     removeUsers: (state) => {
-      state.data = [];
-      state.total = 0;
-      state.error = null;
-      state.isLoading = false;
+      state = { ...initialState };
     },
   },
 });
@@ -52,7 +49,6 @@ export const {
   usersFetchStart,
   usersFetchSuccess,
   usersFetchError,
-  addUsers,
   removeUsers,
 } = userSlice.actions;
 

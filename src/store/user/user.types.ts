@@ -11,8 +11,10 @@ export interface UserState {
 
 export type IUserState = {
   data: UserState[];
-  total: number
+  total: number;
   isLoading: boolean;
+  page: number;
+  limit: number;
   error: any;
 };
 

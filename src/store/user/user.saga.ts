@@ -6,17 +6,24 @@ import {
 } from "./user.types";
 import { get } from "../../api/crud";
 
-function* workUsersFetch(): any {
+function* workUsersFetch({
+  payload,
+}: {
+  payload: { page: number; limit: number };
+}): any {
   try {
-    const response = yield call(() => get("/fetch/dummy/user-v2"));
+    const response = yield call(() => get("/fetch/dummy/user-v2", payload));
     yield put({ type: FETCH_USERS_SUCCESS, payload: response });
-  } catch (e) {
-    yield put({ type: FETCH_USERS_ERROR, payload: { error: e } });
+  } catch (e: any) {
+    yield put({
+      type: FETCH_USERS_ERROR,
+      payload: e.response?.data?.message ?? "Couldn't fetch users",
+    });
   }
 }
 
 function* watchUsersFetch() {
-  yield takeLatest(FETCH_USERS_START, workUsersFetch);
+  yield takeLatest<any>(FETCH_USERS_START, workUsersFetch);
 }
 
 export default watchUsersFetch;
