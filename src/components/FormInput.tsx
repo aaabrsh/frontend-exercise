@@ -59,7 +59,11 @@ export default function FormInput({
             type={isPassword && !showPassword ? "password" : "text"}
             name="username"
             className={`input ${isPassword && "rounded-r-none"} ${
-              !touched ? "" : error.length > 0 ? "invalid" : "valid"
+              !touched || (!value && !error.length)
+                ? ""
+                : error.length > 0
+                ? "invalid"
+                : "valid"
             }`}
             id={label}
             value={value}
