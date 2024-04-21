@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import FormInput from "../components/FormInput";
 import Loader from "../components/Loader";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { loginStart } from "../store/auth/auth.slice";
 import { PASSWORD_LENGTH } from "../constants/user-form";
@@ -14,8 +14,9 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState("");
   const [emailTouched, setEmailTouched] = useState(false);
   const [passwordTouched, setPasswordTouched] = useState(false);
-  const { isLoading, error } = useAuth();
+  const { isLoading, error, isLoggedIn } = useAuth();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (emailTouched) validateEmail();
@@ -24,6 +25,10 @@ export default function Login() {
   useEffect(() => {
     if (passwordTouched) validatePassword();
   }, [password]);
+
+  useEffect(() => {
+    if (isLoggedIn) navigate("/home");
+  }, [isLoggedIn]);
 
   const onSubmit = (e: any) => {
     e.preventDefault();

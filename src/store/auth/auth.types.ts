@@ -4,6 +4,7 @@ export interface IAuthState {
   user: UserState | null;
   isLoading: boolean;
   error: any;
+  isLoggedIn: boolean;
 }
 
 // action types

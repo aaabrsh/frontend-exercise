@@ -3,10 +3,13 @@ import { IAuthState } from "./auth.types";
 import { LoginData } from "../../type/interfaces";
 import { UserState } from "../user/user.types";
 
+const local_data = localStorage.getItem("auth");
+
 const initialState: IAuthState = {
-  user: null,
+  user: local_data ? JSON.parse(local_data) : null,
   isLoading: false,
   error: null,
+  isLoggedIn: local_data? true : false
 };
 
 const authSlice = createSlice({
@@ -14,7 +17,7 @@ const authSlice = createSlice({
   initialState,
 
   reducers: {
-    loginStart: (state, action: PayloadAction<LoginData>) => {
+    loginStart: (state, _action: PayloadAction<LoginData>) => {
       state.user = null;
       state.error = null;
       state.isLoading = true;
@@ -23,13 +26,24 @@ const authSlice = createSlice({
     loginSuccess: (state, action: PayloadAction<UserState>) => {
       state.user = action.payload;
       state.error = null;
+      state.isLoggedIn = true;
       state.isLoading = false;
+      localStorage.setItem("auth", JSON.stringify(action.payload));
     },
 
     loginError: (state, action: PayloadAction<any>) => {
       state.user = null;
       state.error = action.payload;
+      state.isLoggedIn = false;
       state.isLoading = false;
+    },
+
+    logout: (state) => {
+      state.user = null;
+      state.error = null;
+      state.isLoading = false;
+      state.isLoggedIn = false;
+      localStorage.removeItem("user");
     },
   },
 });
