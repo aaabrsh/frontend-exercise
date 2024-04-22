@@ -3,7 +3,12 @@ import Loader from "./Loader";
 import { Link } from "react-router-dom";
 import FormInput from "./FormInput";
 import "../styles/form.css";
-import { AddressForm, UserFormData, UserFormErrors } from "../type/interfaces";
+import {
+  AddressForm,
+  UserFormData,
+  UserFormErrors,
+  userFormKeys,
+} from "../type/interfaces";
 import {
   INITIAL_ADDRESS,
   INITIAL_DATA,
@@ -34,14 +39,33 @@ export default function UserForm({
   const [errors, setErrors] = useState<UserFormErrors>(INITIAL_ERRORS);
 
   useEffect(() => {
+    // set initial form data
     if (initial_data) {
-      setOriginalFormData(initial_data);
+      let processed: any = {};
+
+      // remove the unecessary data that comes from the object on the redux store
+      Object.entries(initial_data).forEach(([key, value]): any => {
+        if (userFormKeys[key]) processed[key] = value;
+      });
+
+      const data: UserFormData = {
+        ...INITIAL_DATA,
+        ...processed,
+      };
+
+      setOriginalFormData(data);
+      setForm(data);
+
+      const address = data.address?.split(", ");
+      setAddress({ city: address[0] ?? "", country: address[1] ?? "" });
     } else {
       setOriginalFormData(INITIAL_DATA);
+      setForm(INITIAL_DATA);
     }
   }, [initial_data]);
 
   useEffect(() => {
+    // update address data whenever city and country value changes
     if (address.city || address.country) {
       setForm((form) => ({
         ...form,
@@ -101,22 +125,24 @@ export default function UserForm({
       valid = false;
     }
 
-    // password validation
-    if (!form.password) {
-      errors_copy.password = "password is required";
-      valid = false;
-    } else if (form.password.length < PASSWORD_LENGTH) {
-      errors_copy.password = `password length must be atleast ${PASSWORD_LENGTH}`;
-      valid = false;
-    }
+    if (!isEdit) {
+      // password validation
+      if (!form.password) {
+        errors_copy.password = "password is required";
+        valid = false;
+      } else if (form.password.length < PASSWORD_LENGTH) {
+        errors_copy.password = `password length must be atleast ${PASSWORD_LENGTH}`;
+        valid = false;
+      }
 
-    // confirm password validation
-    if (!form.confirmPassword) {
-      errors_copy.confirmPassword = "password is required";
-      valid = false;
-    } else if (form.confirmPassword !== form.password) {
-      errors_copy.confirmPassword = "passwords don't match";
-      valid = false;
+      // confirm password validation
+      if (!form.confirmPassword) {
+        errors_copy.confirmPassword = "password is required";
+        valid = false;
+      } else if (form.confirmPassword !== form.password) {
+        errors_copy.confirmPassword = "passwords don't match";
+        valid = false;
+      }
     }
 
     // address validation
@@ -227,23 +253,29 @@ export default function UserForm({
               <hr className="border-gray-400 block md:hidden" />
 
               <div className="flex flex-col gap-4 flex-1">
-                <FormInput
-                  label="Password"
-                  value={form.password}
-                  error={errors.password}
-                  onChange={(e) => handleFormChange("password", e.target.value)}
-                  isPassword={true}
-                />
+                {!isEdit && (
+                  <>
+                    <FormInput
+                      label="Password"
+                      value={form.password}
+                      error={errors.password}
+                      onChange={(e) =>
+                        handleFormChange("password", e.target.value)
+                      }
+                      isPassword={true}
+                    />
 
-                <FormInput
-                  label="Confirm Password"
-                  value={form.confirmPassword}
-                  error={errors.confirmPassword}
-                  onChange={(e) =>
-                    handleFormChange("confirmPassword", e.target.value)
-                  }
-                  isPassword={true}
-                />
+                    <FormInput
+                      label="Confirm Password"
+                      value={form.confirmPassword}
+                      error={errors.confirmPassword}
+                      onChange={(e) =>
+                        handleFormChange("confirmPassword", e.target.value)
+                      }
+                      isPassword={true}
+                    />
+                  </>
+                )}
 
                 <hr className="border-gray-400 block md:hidden mt-3" />
 

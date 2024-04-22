@@ -11,6 +11,16 @@ export interface UserFormData {
   profilePicture?: string;
 }
 
+export const userFormKeys: any = {
+  firstName: true,
+  lastName: true,
+  email: true,
+  userName: true,
+  address: true,
+  isBuyer: true,
+  profilePicture: true,
+};
+
 export interface UserFormErrors {
   firstName: string;
   lastName: string;

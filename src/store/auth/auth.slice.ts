@@ -45,10 +45,16 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
       localStorage.removeItem("auth");
     },
+
+    updateUser: (state, action: PayloadAction<UserState>) => {
+      state.isLoading = false;
+      state.user = action.payload;
+      localStorage.setItem("auth", JSON.stringify(action.payload));
+    },
   },
 });
 
-export const { loginStart, loginSuccess, loginError, logout } =
+export const { loginStart, loginSuccess, loginError, logout, updateUser } =
   authSlice.actions;
 
 export const authReducer = authSlice.reducer;
