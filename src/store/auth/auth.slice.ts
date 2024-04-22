@@ -48,8 +48,8 @@ const authSlice = createSlice({
 
     updateUser: (state, action: PayloadAction<UserState>) => {
       state.isLoading = false;
-      state.user = action.payload;
-      localStorage.setItem("auth", JSON.stringify(action.payload));
+      state.user = { ...state.user, ...action.payload };
+      localStorage.setItem("auth", JSON.stringify(state.user));
     },
   },
 });
