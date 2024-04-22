@@ -2,10 +2,18 @@ import { useDispatch } from "react-redux";
 import "../styles/navbar.css";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../store/auth/auth.slice";
+import { useAuth } from "../hooks/useAuth";
 
 export default function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { user } = useAuth();
+
+  const showDefaultPic = (event: any) => {
+    console.log("here");
+    event.target.src =
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtfGlbINljpthk3guHXef2xpdFPnFfaHPHYQ&usqp=CAU";
+  };
 
   return (
     <>
@@ -24,9 +32,17 @@ export default function Header() {
             Profile
           </li>
         </ul>
-        <ul className="text-white">
+        <ul className="text-white flex gap-2 justify-center items-center">
+          <li className="border-r border-green-200 pr-3">
+            <img
+              src={user?.profilePic ?? ""}
+              onError={showDefaultPic}
+              alt=""
+              className="w-12 h-12 bg-yellow-300 rounded-[50%] border-2 border-green-200 object-cover"
+            />
+          </li>
           <li
-            className="py-4 px-4 self-end underline-animation"
+            className="py-4 px-4 self-end hover:text-yellow-500 cursor-pointer"
             onClick={() => dispatch(logout())}
           >
             Sign out
