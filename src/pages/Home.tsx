@@ -61,6 +61,13 @@ export default function Home() {
       <Header />
 
       <div className="py-20 px-5 min-h-[100vh]">
+        {/* indicate how many users we have loaded */}
+        {total && (
+          <div className="px-3 text-lg font-semibold font-mono text-cyan-900">
+            {users.length} / {total}
+          </div>
+        )}
+
         <div className="gap-x-6 gap-y-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {users.map((user, index) => (
             <Card user={user} key={index} />
@@ -75,7 +82,7 @@ export default function Home() {
         {noMoreUsers && (
           <div className="flex flex-col relative justify-center items-center my-16">
             <hr className="border-cyan-600 opacity-40 border-dashed relative w-full" />
-            <div className="text-cyan-600 font-bold text-3xl text-center py-3 text-opacity-40 absolute bg-white px-5">
+            <div className="text-cyan-600 font-bold text-3xl text-center py-3 text-opacity-40 absolute bg-white px-5 font-mono">
               ~ No More Users ~
             </div>
           </div>
