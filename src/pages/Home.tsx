@@ -1,10 +1,11 @@
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useUsers } from "../hooks/useUsers";
 import { removeUsers, usersFetchStart } from "../store/user/user.slice";
 import Card from "../components/Card";
 import Header from "../components/Header";
 import SkeletonLoader from "../components/SkeletonLoader";
+import Toast from "../components/Toast";
 
 export default function Home() {
   const { data: users, total, isLoading, error, page, limit } = useUsers();
@@ -38,10 +39,16 @@ export default function Home() {
   };
 
   // Fetch more posts when the user reaches the bottom of the page
+  let prevScrollPos = useRef(window.scrollY);
   const handleScroll = () => {
+    const currentScrollPos = window.scrollY;
+    const isScrollingDown = currentScrollPos > prevScrollPos.current; // check if the current scroll is a scroll down or up
+    prevScrollPos.current = currentScrollPos;
+
     if (
       window.innerHeight + document.documentElement.scrollTop >=
         document.documentElement.offsetHeight - 15 &&
+      isScrollingDown &&
       !isLoading &&
       !noMoreUsers
     ) {
@@ -52,6 +59,7 @@ export default function Home() {
   return (
     <>
       <Header />
+
       <div className="py-20 px-5 min-h-[100vh]">
         <div className="gap-x-6 gap-y-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {users.map((user, index) => (
@@ -72,6 +80,9 @@ export default function Home() {
             </div>
           </div>
         )}
+
+        {/* Error display as a Toast */}
+        <Toast message={error} />
       </div>
     </>
   );
