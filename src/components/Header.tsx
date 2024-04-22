@@ -10,7 +10,6 @@ export default function Header() {
   const { user } = useAuth();
 
   const showDefaultPic = (event: any) => {
-    console.log("here");
     event.target.src =
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtfGlbINljpthk3guHXef2xpdFPnFfaHPHYQ&usqp=CAU";
   };
