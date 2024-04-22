@@ -39,8 +39,8 @@ const userSlice = createSlice({
       state.isLoading = false;
     },
 
-    removeUsers: (state) => {
-      state = { ...initialState };
+    removeUsers: (_state) => {
+      _state = { ...initialState };
     },
   },
 });

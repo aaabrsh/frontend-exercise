@@ -18,8 +18,8 @@ import {
 
 interface UserFormProps {
   title: string;
-  initial_data?: UserFormData;
-  isEdit?: boolean;
+  initial_data?: UserFormData; // contains user data if it is on profile edit page
+  isEdit?: boolean; // if the form is used for edit profile page
   isLoading: boolean;
   apiError?: string;
   onSubmit: (data: UserFormData) => void;
@@ -41,7 +41,7 @@ export default function UserForm({
   useEffect(() => {
     // set initial form data
     if (initial_data) {
-      let processed: any = {};
+      const processed: any = {};
 
       // remove the unecessary data that comes from the object on the redux store
       Object.entries(initial_data).forEach(([key, value]): any => {
@@ -110,7 +110,7 @@ export default function UserForm({
     }
 
     // email validation
-    let emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+    const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
     if (!form.email) {
       errors_copy.email = "email is required";
       valid = false;
@@ -150,6 +150,7 @@ export default function UserForm({
       errors_copy.city = "city is required";
       valid = false;
     }
+
     if (!address.country) {
       errors_copy.country = "country is required";
       valid = false;

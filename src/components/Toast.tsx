@@ -12,6 +12,7 @@ export default function Toast({
   const ref = useRef<HTMLDivElement>();
 
   useEffect(() => {
+    // display the toast if a new message has been sent from the parent
     if (message && ref.current) {
       ref.current.style.display = "flex";
       setTimeout(closeToast, time);

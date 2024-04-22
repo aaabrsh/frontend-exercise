@@ -25,7 +25,7 @@ export default function Home() {
   }, [page, limit, total]);
 
   useEffect(() => {
-    // add event listener for scorll event to fetch additional posts on the bottom of the page
+    // add event listener for scorll event to fetch additional users on the bottom of the page
     window.addEventListener("scroll", handleScroll);
 
     return () => {
@@ -38,8 +38,8 @@ export default function Home() {
       dispatch(usersFetchStart({ page: page + 1, limit }));
   };
 
-  // Fetch more posts when the user reaches the bottom of the page
-  let prevScrollPos = useRef(window.scrollY);
+  // Fetch more users when the user reaches the bottom of the page
+  const prevScrollPos = useRef(window.scrollY);
   const handleScroll = () => {
     const currentScrollPos = window.scrollY;
     const isScrollingDown = currentScrollPos > prevScrollPos.current; // check if the current scroll is a scroll down or up

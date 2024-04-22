@@ -50,7 +50,7 @@ export default function Login() {
       return false;
     }
 
-    let emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+    const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
     if (!emailRegex.test(email)) {
       setEmailError("invalid email pattern");
       return false;

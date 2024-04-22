@@ -9,6 +9,7 @@ export default function Header() {
   const dispatch = useDispatch();
   const { user } = useAuth();
 
+  // show default profile pic if the given source doesn't contain an image
   const showDefaultPic = (event: any) => {
     event.target.src =
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtfGlbINljpthk3guHXef2xpdFPnFfaHPHYQ&usqp=CAU";

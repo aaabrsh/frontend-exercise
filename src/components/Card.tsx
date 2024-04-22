@@ -13,7 +13,7 @@ export default function Card({ user }: { user: UserState }) {
   };
 
   const handleImageError = (event: any) => {
-    // set default image incase the profilePic that comes from API doesn't work
+    // set default image in case the profilePic that comes from API doesn't work
     event.target.src =
       "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80";
   };
